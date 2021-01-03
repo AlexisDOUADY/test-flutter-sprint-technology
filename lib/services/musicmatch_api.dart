@@ -14,11 +14,15 @@ class MusixMatchApi {
 
   Future<List<dynamic>> _performRequest(String request, String key) async {
     final result = await http.get(request);
-    return json.decode(result.body)[key];
+    return json.decode(result.body)["message"]["body"][key];
   }
 
   Future<List<Track>> searchForTrack(String keywords) async {
-    return (await _performRequest(_buildRequestURL("track.search", {"q_track": keywords}), "track_list"))
-      .map((wsTrack) => Track.fromJson(wsTrack));
+    var list = await _performRequest(_buildRequestURL("track.search", {
+      "q_track_artist": keywords,
+      "page_size": "10",
+      "page": "1",
+    }), "track_list");
+    return list.map((wsTrack) => Track.fromJson(wsTrack["track"])).toList();
   }
 }

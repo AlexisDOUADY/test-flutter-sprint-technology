@@ -11,7 +11,7 @@ class Track {
       json["track_id"],
       json["track_name"],
       json["track_rating"],
-      json["has_lyrics"],
+      json["has_lyrics"] == 1,
       json["album_name"],
       json["artist_name"],
     );
